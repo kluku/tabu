@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:async';
+import 'clock.dart';
 
 void main() => runApp(new MyApp());
 
@@ -81,6 +82,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  final timerViewStateKey = GlobalKey<TimerViewState>(debugLabel: "Timer State");
+
   final int maxSeconds = 30;
 
   Timer timer;
@@ -113,6 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
       var minutes = (secondsLeft / 60).truncate();
       var seconds = secondsLeft % 60;
       timeLeft = '${'$minutes'.padLeft(2,'0')}:${'$seconds'.padLeft(2,'0')}';
+      timerViewStateKey.currentState.setRatio(secondsLeft / maxSeconds);
     });
   }
 
@@ -149,36 +154,13 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: new GestureDetector(
             onTap: () {
-              print('tap');
               nextCard();
             },
             child: new Center(
                 child: new Column(children: <Widget>[
               new Container(
                   padding: new EdgeInsets.all(10.0), child: new Text(timeLeft)),
-              new Stack(
-                children: <Widget>[
-                  new Container(
-                    width: 50.0,
-                    height: 50.0,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        boxShadow: [
-                          new BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 2.0,
-                              spreadRadius: 1.0,
-                              offset: const Offset(0.0, 1.0))
-                        ]),
-                  ),
-                  new Container(
-                      width: 50.0,
-                      height: 50.0,
-                      child: new CustomPaint(
-                          painter: new HandPainter(secondsLeft / maxSeconds)))
-                ],
-              ),
+              new TimerView(key: timerViewStateKey),
               new Card(
                 color: Colors.green,
                 elevation: 3.0,
@@ -226,59 +208,5 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {/* do nothing */},
               )
             ]))));
-  }
-}
-
-class HandPainter extends CustomPainter {
-  final List<Color> colors = [
-    Colors.green[500],
-    Colors.green[500],
-    Colors.green[500],
-    Colors.green[500],
-    Colors.green[400],
-    Colors.green[400],
-    Colors.green[400],
-    Colors.green[400],
-    Colors.green[300],
-    Colors.green[300],
-    Colors.green[300],
-    Colors.yellow[400],
-    Colors.yellow[500],
-    Colors.yellow[600],
-    Colors.yellow[700],
-    Colors.orange[500],
-    Colors.orange[600],
-    Colors.orange[700],
-    Colors.red[500],
-    Colors.red[600],
-    Colors.red[700],
-    Colors.red[800],
-    Colors.red[900],
-  ];
-
-  Paint shapePaint;
-  double ratio;
-
-  HandPainter(double ratio) {
-    this.ratio = ratio;
-    shapePaint = new Paint();
-    var colorId = (((colors.length - 1) * (1.0 - ratio)).abs()).truncate();
-    shapePaint.color = colors[colorId];
-    shapePaint.style = PaintingStyle.fill;
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.save();
-
-    canvas.drawArc(Rect.fromLTWH(0.0, 0.0, 50.0, 50.0), -pi / 2, ratio * 2 * pi,
-        true, shapePaint);
-
-    canvas.restore();
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
   }
 }
