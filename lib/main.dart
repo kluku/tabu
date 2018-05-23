@@ -206,10 +206,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       new Container(height: 20.0, width: 0.0),
                     ]),
               ),
-              new FlatButton(
+              new RaisedButton(
                 child: const Text('Poprawna odpowiedź!'),
-                textColor: Colors.green,
+                color: Colors.green,
+                textColor: Colors.black,
                 onPressed: () {/* do nothing */},
+                shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(3.0)
+                )
               )
             ]))));
   }
