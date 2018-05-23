@@ -81,6 +81,8 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => new _MyHomePageState();
 }
 
+enum Team { A, B }
+
 class _MyHomePageState extends State<MyHomePage> {
 
   final timerViewStateKey = GlobalKey<TimerViewState>(debugLabel: "Timer State");
@@ -89,6 +91,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Timer timer;
   Stopwatch stopwatch = new Stopwatch();
+
+  int itemIndex = 0;
+  int secondsLeft = 0;
+  String timeLeft = '';
+
+  Team team = Team.A;
+  int pointsA = 0, pointsB = 0;
 
   @override
   void initState() {
@@ -124,10 +133,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  int itemIndex = 0;
-  int secondsLeft = 0;
-  String timeLeft = '';
-
   void nextCard() {
     timerViewStateKey.currentState.startBreathing();
     setState(() {
@@ -139,6 +144,11 @@ class _MyHomePageState extends State<MyHomePage> {
       itemIndex = (itemIndex + 1) % MyApp.items.length;
       stopwatch.reset();
       stopwatch.start();
+      if (team == Team.A) { 
+        team = Team.B; 
+      } else {
+        team = Team.A;
+      }
     });
   }
 
@@ -164,7 +174,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: new Column(children: <Widget>[
               new Container(
                   padding: new EdgeInsets.all(10.0), child: new Text(timeLeft)),
-              new TimerView(key: timerViewStateKey),
+                  new Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      new Column(
+                        children: <Widget>[
+                          new Text('Team A'),
+                          new Text('Points: $pointsA'),
+                        ]
+                      ),
+                    new TimerView(key: timerViewStateKey),
+                      new Column(
+                        children: <Widget>[
+                          new Text('Team B'),
+                          new Text('Points: $pointsB'),
+                        ]
+                      ),
+                  ]),
               new Card(
                 color: Colors.green,
                 elevation: 3.0,
