@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 class TimerView extends StatefulWidget {
-
   const TimerView({key: Key}) : super(key: key);
 
   @override
   TimerViewState createState() {
-    return new TimerViewState(); 
+    return new TimerViewState();
   }
 }
 
@@ -15,11 +14,19 @@ class TimerViewState extends State<TimerView>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
 
-  double ratio;
+  double ratio = 0.0;
   double sizeDelta = 0.0;
 
   void setRatio(double ratio) {
     this.ratio = ratio;
+  }
+
+  void stopBreathing() {
+    _controller.stop();
+  }
+
+  void startBreathing() {
+    _controller.forward(from: 0.0);
   }
 
   @override
@@ -50,31 +57,32 @@ class TimerViewState extends State<TimerView>
 
   @override
   Widget build(BuildContext context) {
-    return new Stack(
-      children: <Widget>[
-        new Container(
-          height: 50.0 + sizeDelta,
-          width: 50.0 + sizeDelta,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-              boxShadow: [
-                new BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 2.0,
-                    spreadRadius: 1.0,
-                    offset: const Offset(0.0, 1.0))
-              ]),
-        ),
-        new Opacity(
-            opacity: 1.0,
-            child: new Container(
+    return new Container(
+        height: 60.0,
+        width: 60.0,
+        child: new Center(
+            child: new Stack(
+          children: <Widget>[
+            new Container(
+              height: 50.0 + sizeDelta,
+              width: 50.0 + sizeDelta,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  boxShadow: [
+                    new BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 2.0,
+                        spreadRadius: 1.0,
+                        offset: const Offset(0.0, 1.0))
+                  ]),
+            ),
+            new Container(
                 height: 50.0 + sizeDelta,
                 width: 50.0 + sizeDelta,
-                child: new CustomPaint(
-                  painter: new HandPainter(ratio))))
-      ],
-    );
+                child: new CustomPaint(painter: new HandPainter(ratio)))
+          ],
+        )));
   }
 }
 
@@ -83,7 +91,11 @@ class HandPainter extends CustomPainter {
   double ratio;
 
   HandPainter(double ratio) {
-    this.ratio = ratio;
+    if (ratio != null) {
+      this.ratio = ratio;
+    } else {
+      this.ratio = 0.0;
+    }
     shapePaint = new Paint();
     shapePaint.color = HSVColor
         .lerp(new HSVColor.fromColor(Colors.red),
@@ -96,8 +108,8 @@ class HandPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     canvas.save();
 
-    canvas.drawArc(Rect.fromLTWH(0.0, 0.0, size.width, size.height), -pi / 2, ratio * 2 * pi,
-        true, shapePaint);
+    canvas.drawArc(Rect.fromLTWH(0.0, 0.0, size.width, size.height), -pi / 2,
+        ratio * 2 * pi, true, shapePaint);
 
     canvas.restore();
   }

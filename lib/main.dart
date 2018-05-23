@@ -118,6 +118,9 @@ class _MyHomePageState extends State<MyHomePage> {
       var seconds = secondsLeft % 60;
       timeLeft = '${'$minutes'.padLeft(2,'0')}:${'$seconds'.padLeft(2,'0')}';
       timerViewStateKey.currentState.setRatio(secondsLeft / maxSeconds);
+      if (secondsLeft <= 0) {
+        timerViewStateKey.currentState.stopBreathing();
+      }
     });
   }
 
@@ -126,6 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String timeLeft = '';
 
   void nextCard() {
+    timerViewStateKey.currentState.startBreathing();
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -164,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
               new Card(
                 color: Colors.green,
                 elevation: 3.0,
-                margin: new EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 20.0),
+                margin: new EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 20.0),
                 child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
