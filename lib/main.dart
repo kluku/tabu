@@ -84,8 +84,8 @@ class MyHomePage extends StatefulWidget {
 enum Team { A, B }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  final timerViewStateKey = GlobalKey<TimerViewState>(debugLabel: "Timer State");
+  final timerViewStateKey =
+      GlobalKey<TimerViewState>(debugLabel: "Timer State");
 
   final int maxSeconds = 30;
 
@@ -144,8 +144,8 @@ class _MyHomePageState extends State<MyHomePage> {
       itemIndex = (itemIndex + 1) % MyApp.items.length;
       stopwatch.reset();
       stopwatch.start();
-      if (team == Team.A) { 
-        team = Team.B; 
+      if (team == Team.A) {
+        team = Team.B;
       } else {
         team = Team.A;
       }
@@ -174,22 +174,30 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: new Column(children: <Widget>[
               new Container(
                   padding: new EdgeInsets.all(10.0), child: new Text(timeLeft)),
-                  new Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      new Column(
-                        children: <Widget>[
-                          new Text('Team A'),
-                          new Text('Points: $pointsA'),
-                        ]
-                      ),
+              new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    new Expanded(
+                        child: new Column(children: <Widget>[
+                      new Text('Team A',
+                          style: new TextStyle(
+                              color:
+                                team == Team.A ? Colors.green : Colors.black,
+                              fontWeight: 
+                                team == Team.A ? FontWeight.bold : FontWeight.normal)),
+                      new Text('Points: $pointsA'),
+                    ])),
                     new TimerView(key: timerViewStateKey),
-                      new Column(
-                        children: <Widget>[
-                          new Text('Team B'),
-                          new Text('Points: $pointsB'),
-                        ]
-                      ),
+                    new Expanded(
+                        child: new Column(children: <Widget>[
+                      new Text('Team B',
+                          style: new TextStyle(
+                              color:
+                                team == Team.B ? Colors.green : Colors.black,
+                              fontWeight: 
+                                team == Team.B ? FontWeight.bold : FontWeight.normal)),
+                      new Text('Points: $pointsB'),
+                    ])),
                   ]),
               new Card(
                 color: Colors.green,
@@ -233,14 +241,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     ]),
               ),
               new RaisedButton(
-                child: const Text('Poprawna odpowiedź!'),
-                color: Colors.green,
-                textColor: Colors.black,
-                onPressed: () {/* do nothing */},
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(3.0)
-                )
-              )
+                  child: const Text('Correct Answer!'),
+                  color: Colors.green,
+                  textColor: Colors.black,
+                  onPressed: () {
+                    switch (team) {
+                      case Team.A:
+                        pointsA++;
+                        break;
+                      case Team.B:
+                        pointsB++;
+                        break;
+                    }
+                    nextCard();
+                  },
+                  shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(3.0)))
             ]))));
   }
 }
