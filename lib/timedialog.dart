@@ -20,8 +20,12 @@ class _TimeDialogState extends State<TimeDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return new Card(
-        margin: new EdgeInsets.all(40.0),
+
+    return new Dialog(
+      child: new Container(
+        width: 280.0,
+        height: 200.0,
+        margin: new EdgeInsets.all(20.0),
         child: new Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -44,7 +48,7 @@ class _TimeDialogState extends State<TimeDialog> {
                     widget.callback(value);
                     Navigator.of(context).pop();
                   })
-            ]));
+            ])));
   }
 }
 
