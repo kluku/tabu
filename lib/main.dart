@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:async';
 import 'clock.dart';
+import 'timedialog.dart';
 
 void main() => runApp(new MyApp());
 
@@ -87,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final timerViewStateKey =
       GlobalKey<TimerViewState>(debugLabel: "Timer State");
 
-  final int maxSeconds = 30;
+  int maxSeconds = 120;
 
   Timer timer;
   Stopwatch stopwatch = new Stopwatch();
@@ -102,6 +103,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    restartGame();
+  }
+
+  void restartGame() {
+    pointsA = 0;
+    pointsB = 0;
     MyApp.items.shuffle(Random.secure());
     timer = new Timer.periodic(new Duration(milliseconds: 100), callback);
     stopwatch.reset();
@@ -123,9 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
       if (secondsLeft < 0) {
         secondsLeft = 0;
       }
-      var minutes = (secondsLeft / 60).truncate();
-      var seconds = secondsLeft % 60;
-      timeLeft = '${'$minutes'.padLeft(2,'0')}:${'$seconds'.padLeft(2,'0')}';
+      timeLeft = secondsToString(secondsLeft);
       timerViewStateKey.currentState.setRatio(secondsLeft / maxSeconds);
       if (secondsLeft <= 0) {
         timerViewStateKey.currentState.stopBreathing();
@@ -142,13 +147,13 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       itemIndex = (itemIndex + 1) % MyApp.items.length;
-      stopwatch.reset();
-      stopwatch.start();
-      if (team == Team.A) {
-        team = Team.B;
-      } else {
-        team = Team.A;
-      }
+      // stopwatch.reset();
+      // stopwatch.start();
+      // if (team == Team.A) {
+      //   team = Team.B;
+      // } else {
+      //   team = Team.A;
+      // }
     });
   }
 
@@ -166,6 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // the App.build method, and use it to set our appbar title.
           title: new Text(widget.title),
         ),
+        drawer: sideMenu(),
         body: new GestureDetector(
             onTap: () {
               nextCard();
@@ -174,89 +180,156 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: new Column(children: <Widget>[
               new Container(
                   padding: new EdgeInsets.all(10.0), child: new Text(timeLeft)),
-              new Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    new Expanded(
-                        child: new Column(children: <Widget>[
-                      new Text('Team A',
-                          style: new TextStyle(
-                              color:
-                                team == Team.A ? Colors.green : Colors.black,
-                              fontWeight: 
-                                team == Team.A ? FontWeight.bold : FontWeight.normal)),
-                      new Text('Points: $pointsA'),
-                    ])),
-                    new TimerView(key: timerViewStateKey),
-                    new Expanded(
-                        child: new Column(children: <Widget>[
-                      new Text('Team B',
-                          style: new TextStyle(
-                              color:
-                                team == Team.B ? Colors.green : Colors.black,
-                              fontWeight: 
-                                team == Team.B ? FontWeight.bold : FontWeight.normal)),
-                      new Text('Points: $pointsB'),
-                    ])),
-                  ]),
-              new Card(
-                color: Colors.green,
-                elevation: 3.0,
-                margin: new EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 20.0),
-                child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      new Container(
-                          padding:
-                              new EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                          child: new Text(
-                            MyApp.items[itemIndex].title,
-                            textAlign: TextAlign.center,
-                            style: new TextStyle(
-                                fontSize: 21.0, fontWeight: FontWeight.bold),
-                          )),
-                      new Container(
-                          width: 150.0,
-                          color: Colors.black,
-                          alignment: FractionalOffset.center,
-                          child: new SizedBox(height: 1.0, width: 1.0)),
-                      new Container(height: 20.0, width: 0.0),
-                      new Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: MyApp.items[itemIndex].forbiddenWords
-                              .map((word) => new Container(
-                                  padding: new EdgeInsets.fromLTRB(
-                                      10.0, 10.0, 10.0, 10.0),
-                                  child: new Text(
-                                    word,
-                                    textAlign: TextAlign.center,
-                                    style: new TextStyle(
-                                        fontSize: 17.0,
-                                        fontWeight: FontWeight.normal),
-                                  )))
-                              .toList()),
-                      new Container(height: 20.0, width: 0.0),
-                    ]),
-              ),
-              new RaisedButton(
-                  child: const Text('Correct Answer!'),
-                  color: Colors.green,
-                  textColor: Colors.black,
-                  onPressed: () {
-                    switch (team) {
-                      case Team.A:
-                        pointsA++;
-                        break;
-                      case Team.B:
-                        pointsB++;
-                        break;
-                    }
-                    nextCard();
-                  },
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(3.0)))
+              pointsAndTimerRow(),
+              tabuCard(),
+              buttonsRow()
             ]))));
+  }
+
+  Drawer sideMenu() {
+    return new Drawer(
+        child: new ListView(
+      children: <Widget>[
+        new ListTile(
+          title: new Text('Menu'),
+          onTap: null,
+        ),
+        new ListTile(
+          title: new Text('Powrót do gry'),
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        new Divider(),
+        new ListTile(
+          title: new Text('Zacznij od nowa'),
+          onTap: () {
+            restartGame();
+            Navigator.of(context).pop();
+          },
+        ),
+        new Divider(),
+        new ListTile(
+          title: new Text('Ustaw czas'),
+          onTap: () {
+            _setTime();
+          },
+        ),
+        new Divider(),
+      ],
+    ));
+  }
+
+  Card tabuCard() {
+    return new Card(
+      color: Colors.green,
+      elevation: 3.0,
+      margin: new EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+      child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            new Container(
+                padding: new EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                child: new Text(
+                  MyApp.items[itemIndex].title,
+                  textAlign: TextAlign.center,
+                  style: new TextStyle(
+                      fontSize: 21.0, fontWeight: FontWeight.bold),
+                )),
+            new Container(
+                width: 150.0,
+                color: Colors.black,
+                alignment: FractionalOffset.center,
+                child: new SizedBox(height: 1.0, width: 1.0)),
+            new Container(height: 20.0, width: 0.0),
+            new Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: MyApp.items[itemIndex].forbiddenWords
+                    .map((word) => new Container(
+                        padding:
+                            new EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                        child: new Text(
+                          word,
+                          textAlign: TextAlign.center,
+                          style: new TextStyle(
+                              fontSize: 17.0, fontWeight: FontWeight.normal),
+                        )))
+                    .toList()),
+            new Container(height: 20.0, width: 0.0),
+          ]),
+    );
+  }
+
+  Row pointsAndTimerRow() {
+    return new Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          new Expanded(
+              child: new Column(children: <Widget>[
+            new Text('Team A',
+                style: new TextStyle(
+                    color: team == Team.A ? Colors.green : Colors.black,
+                    fontWeight:
+                        team == Team.A ? FontWeight.bold : FontWeight.normal)),
+            new Text('Points: $pointsA'),
+          ])),
+          new TimerView(key: timerViewStateKey),
+          new Expanded(
+              child: new Column(children: <Widget>[
+            new Text('Team B',
+                style: new TextStyle(
+                    color: team == Team.B ? Colors.green : Colors.black,
+                    fontWeight:
+                        team == Team.B ? FontWeight.bold : FontWeight.normal)),
+            new Text('Points: $pointsB'),
+          ])),
+        ]);
+  }
+
+  Row buttonsRow() {
+    return new Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget>[
+        new IconButton(
+            icon: new Icon(Icons.thumb_down),
+            color: Colors.red,
+            onPressed: () {
+              switch (team) {
+                case Team.A:
+                  pointsB++;
+                  break;
+                case Team.B:
+                  pointsA++;
+                  break;
+              }
+              nextCard();
+            }),
+        new IconButton(
+            icon: new Icon(Icons.thumb_up),
+            color: Colors.green,
+            onPressed: () {
+              switch (team) {
+                case Team.A:
+                  pointsA++;
+                  break;
+                case Team.B:
+                  pointsB++;
+                  break;
+              }
+              nextCard();
+            })
+      ],
+    );
+  }
+
+  void _setTime() {
+    showDialog(
+        context: context,
+        builder: (_) => new TimeDialog(value: maxSeconds, callback: (value) {
+          maxSeconds = value;
+        })
+    );
   }
 }
