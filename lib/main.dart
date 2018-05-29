@@ -127,15 +127,40 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       secondsLeft =
           maxSeconds - (stopwatch.elapsedMilliseconds / 1000).truncate();
-      if (secondsLeft < 0) {
+      if (secondsLeft <= 0) {
         secondsLeft = 0;
+        timerViewStateKey.currentState.stopBreathing();
+        timer?.cancel();
+        timeOver();
       }
       timeLeft = secondsToString(secondsLeft);
       timerViewStateKey.currentState.setRatio(secondsLeft / maxSeconds);
-      if (secondsLeft <= 0) {
-        timerViewStateKey.currentState.stopBreathing();
-      }
     });
+  }
+
+  void timeOver() {
+    showDialog(
+        context: context,
+        builder: (_) => new SimpleDialog(
+              title: new Text('Koniec Rundy!'),
+              titlePadding: new EdgeInsets.all(20.0),
+              children: <Widget>[
+                new SimpleDialogOption(
+                  child: new Text('Teraz drużyna ${team == Team.A ? 'B' : 'A'}'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    timer = new Timer.periodic(new Duration(milliseconds: 100), callback);
+                    timerViewStateKey.currentState.startBreathing();
+                    MyApp.items.shuffle(Random.secure());
+                    setState(() {
+                      team = team == Team.A ? Team.B : Team.A;
+                      stopwatch.reset();
+                      stopwatch.start();
+                    });
+                  },
+                )
+              ],
+            ));
   }
 
   void nextCard() {
@@ -147,13 +172,6 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       itemIndex = (itemIndex + 1) % MyApp.items.length;
-      // stopwatch.reset();
-      // stopwatch.start();
-      // if (team == Team.A) {
-      //   team = Team.B;
-      // } else {
-      //   team = Team.A;
-      // }
     });
   }
 
@@ -271,7 +289,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           new Expanded(
               child: new Column(children: <Widget>[
-            new Text('Team A',
+            new Text('Drużyna A',
                 style: new TextStyle(
                     color: team == Team.A ? Colors.green : Colors.black,
                     fontWeight:
@@ -281,7 +299,7 @@ class _MyHomePageState extends State<MyHomePage> {
           new TimerView(key: timerViewStateKey),
           new Expanded(
               child: new Column(children: <Widget>[
-            new Text('Team B',
+            new Text('Drużyna B',
                 style: new TextStyle(
                     color: team == Team.B ? Colors.green : Colors.black,
                     fontWeight:
@@ -330,9 +348,10 @@ class _MyHomePageState extends State<MyHomePage> {
   void _setTime() {
     showDialog(
         context: context,
-        builder: (_) => new TimeDialog(value: maxSeconds, callback: (value) {
-          maxSeconds = value;
-        })
-    );
+        builder: (_) => new TimeDialog(
+            value: maxSeconds,
+            callback: (value) {
+              maxSeconds = value;
+            }));
   }
 }
