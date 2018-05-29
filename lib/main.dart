@@ -59,34 +59,24 @@ class MyApp extends StatelessWidget {
         // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.green,
       ),
-      home: new MyHomePage(title: 'Tabu'),
+      home: new GameView(title: 'Tabu'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+class GameView extends StatefulWidget {
+  GameView({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _GameViewState createState() => new _GameViewState();
 }
 
 enum Team { A, B }
 
-class _MyHomePageState extends State<MyHomePage> {
-  final timerViewStateKey =
-      GlobalKey<TimerViewState>(debugLabel: "Timer State");
+class _GameViewState extends State<GameView> {
+  final timerKey = GlobalKey<TimerViewState>(debugLabel: "Timer");
 
   int maxSeconds = 120;
 
@@ -107,12 +97,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void restartGame() {
+    team = Team.A;
     pointsA = 0;
     pointsB = 0;
     MyApp.items.shuffle(Random.secure());
-    timer = new Timer.periodic(new Duration(milliseconds: 100), callback);
+    startTimer();
     stopwatch.reset();
     stopwatch.start();
+  }
+
+  void startTimer() {
+    timer = new Timer.periodic(new Duration(milliseconds: 100), callback);
   }
 
   @override
@@ -129,12 +124,12 @@ class _MyHomePageState extends State<MyHomePage> {
           maxSeconds - (stopwatch.elapsedMilliseconds / 1000).truncate();
       if (secondsLeft <= 0) {
         secondsLeft = 0;
-        timerViewStateKey.currentState.stopBreathing();
+        timerKey.currentState.stopBreathing();
         timer?.cancel();
         timeOver();
       }
       timeLeft = secondsToString(secondsLeft);
-      timerViewStateKey.currentState.setRatio(secondsLeft / maxSeconds);
+      timerKey.currentState.setRatio(secondsLeft / maxSeconds);
     });
   }
 
@@ -146,31 +141,35 @@ class _MyHomePageState extends State<MyHomePage> {
               titlePadding: new EdgeInsets.all(20.0),
               children: <Widget>[
                 new SimpleDialogOption(
-                  child: new Text('Teraz drużyna ${team == Team.A ? 'B' : 'A'}'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    timer = new Timer.periodic(new Duration(milliseconds: 100), callback);
-                    timerViewStateKey.currentState.startBreathing();
-                    MyApp.items.shuffle(Random.secure());
-                    setState(() {
-                      team = team == Team.A ? Team.B : Team.A;
-                      stopwatch.reset();
-                      stopwatch.start();
-                    });
-                  },
+                  child: new RaisedButton(
+                    child:
+                        new Text('Teraz drużyna ${team == Team.A ? 'B' : 'A'}', 
+                          style: new TextStyle(fontSize: 18.0, color: Colors.white)),
+                    color: Colors.green,
+                    onPressed: () {
+                      nextRound();
+                      Navigator.of(context).pop();
+                    },
+                  ),
                 )
               ],
             ));
   }
 
-  void nextCard() {
-    timerViewStateKey.currentState.startBreathing();
+  void nextRound() {
+    startTimer();
+    timerKey.currentState.startBreathing();
+    MyApp.items.shuffle(Random.secure());
+    stopwatch.reset();
+    stopwatch.start();
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
+      team = team == Team.A ? Team.B : Team.A;
+    });
+  }
+
+  void nextCard() {
+    timerKey.currentState.startBreathing();
+    setState(() {
       itemIndex = (itemIndex + 1) % MyApp.items.length;
     });
   }
@@ -185,8 +184,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return new Scaffold(
         appBar: new AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
           title: new Text(widget.title),
         ),
         drawer: sideMenu(),
@@ -256,11 +253,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   MyApp.items[itemIndex].title,
                   textAlign: TextAlign.center,
                   style: new TextStyle(
-                      fontSize: 21.0, fontWeight: FontWeight.bold),
+                      fontSize: 21.0, fontWeight: FontWeight.bold, color: Colors.white),
                 )),
             new Container(
                 width: 150.0,
-                color: Colors.black,
+                color: Colors.white,
                 alignment: FractionalOffset.center,
                 child: new SizedBox(height: 1.0, width: 1.0)),
             new Container(height: 20.0, width: 0.0),
@@ -275,7 +272,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           word,
                           textAlign: TextAlign.center,
                           style: new TextStyle(
-                              fontSize: 17.0, fontWeight: FontWeight.normal),
+                              fontSize: 17.0, fontWeight: FontWeight.normal, color: Colors.white),
                         )))
                     .toList()),
             new Container(height: 20.0, width: 0.0),
@@ -296,7 +293,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         team == Team.A ? FontWeight.bold : FontWeight.normal)),
             new Text('Points: $pointsA'),
           ])),
-          new TimerView(key: timerViewStateKey),
+          new TimerView(key: timerKey),
           new Expanded(
               child: new Column(children: <Widget>[
             new Text('Drużyna B',
@@ -304,7 +301,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: team == Team.B ? Colors.green : Colors.black,
                     fontWeight:
                         team == Team.B ? FontWeight.bold : FontWeight.normal)),
-            new Text('Points: $pointsB'),
+            new Text('Punkty: $pointsB'),
           ])),
         ]);
   }
