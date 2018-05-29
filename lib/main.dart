@@ -195,6 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onTap: null,
         ),
         new ListTile(
+          leading: new Icon(Icons.arrow_back),
           title: new Text('Powrót do gry'),
           onTap: () {
             Navigator.of(context).pop();
@@ -202,6 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         new Divider(),
         new ListTile(
+          leading: new Icon(Icons.replay),
           title: new Text('Zacznij od nowa'),
           onTap: () {
             restartGame();
@@ -210,6 +212,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         new Divider(),
         new ListTile(
+          leading: new Icon(Icons.timer),
           title: new Text('Ustaw czas'),
           onTap: () {
             _setTime();
