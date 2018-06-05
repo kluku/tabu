@@ -114,7 +114,7 @@ class _GameViewState extends State<GameView> {
 
   void timeOver() {
     showDialog(
-        context: context,
+        context: context, barrierDismissible: false,
         builder: (_) => new SimpleDialog(
               title: new Text('Koniec Rundy!'),
               titlePadding: new EdgeInsets.all(20.0),
