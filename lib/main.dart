@@ -44,6 +44,7 @@ class _GameViewState extends State<GameView> {
   final timerKey = GlobalKey<TimerViewState>(debugLabel: "Timer");
 
   int maxSeconds = 120;
+  bool timeOverDialogShown = false;
 
   Timer timer;
   Stopwatch stopwatch = new Stopwatch();
@@ -113,33 +114,39 @@ class _GameViewState extends State<GameView> {
   }
 
   void timeOver() {
-    showDialog(
-        context: context, barrierDismissible: false,
-        builder: (_) => new SimpleDialog(
-              title: new Text('Koniec Rundy!'),
-              titlePadding: new EdgeInsets.all(20.0),
-              children: <Widget>[
-                new SimpleDialogOption(
-                  child: new RaisedButton(
-                    child: new Text(
-                        'Teraz drużyna ${team == Team.A ? 'B' : 'A'}',
-                        style:
-                            new TextStyle(fontSize: 18.0, color: Colors.white)),
-                    color: Colors.green,
-                    onPressed: () {
-                      nextRound();
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                )
-              ],
-            ));
+    if (!timeOverDialogShown) {
+      timeOverDialogShown = true;
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) => new SimpleDialog(
+                title: new Text('Koniec Rundy!'),
+                titlePadding: new EdgeInsets.all(20.0),
+                children: <Widget>[
+                  new SimpleDialogOption(
+                    child: new RaisedButton(
+                      child: new Text(
+                          'Teraz drużyna ${team == Team.A ? 'B' : 'A'}',
+                          style: new TextStyle(
+                              fontSize: 18.0, color: Colors.white)),
+                      color: Colors.green,
+                      onPressed: () {
+                        timeOverDialogShown = false;
+                        nextRound();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  )
+                ],
+              ));
+    }
   }
 
   void nextRound() {
     startTimer();
     stopwatch.reset();
     stopwatch.start();
+    timerKey.currentState.startBreathing();
     setState(() {
       team = team == Team.A ? Team.B : Team.A;
       nextCard();
