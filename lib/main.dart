@@ -1,47 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:async';
+import 'items.dart';
 import 'clock.dart';
 import 'timedialog.dart';
 
 void main() => runApp(new MyApp());
 
-class TabuItem {
-  final String title;
-  final List<String> forbiddenWords;
-
-  const TabuItem({this.title, this.forbiddenWords});
-}
-
 class MyApp extends StatelessWidget {
-  static final List<TabuItem> items = [
-    const TabuItem(
-        title: 'ORBITA',
-        forbiddenWords: ['Krążyć', 'Planeta', 'Słońce', 'Satelita', 'Księżyc']),
-    const TabuItem(
-        title: 'PAJĘCZYNA',
-        forbiddenWords: ['Nić', 'Sieć', 'Tkać', 'Pająk', 'Owad']),
-    const TabuItem(
-        title: 'OAZA',
-        forbiddenWords: ['Woda', 'Pustynia', 'Palma', 'Fatamorgana', 'Sahara']),
-    const TabuItem(title: 'PROMOCJA', forbiddenWords: [
-      'Wyprzedaż',
-      'Reklama',
-      'Przecena',
-      'Zniżka',
-      'Biedronka'
-    ]),
-    const TabuItem(
-        title: 'JAJKO',
-        forbiddenWords: ['Skorupka', 'Białko', 'Żółtko', 'Pisklak', 'Kura']),
-    const TabuItem(title: 'REAKTOR', forbiddenWords: [
-      'Atom',
-      'Elektrownia',
-      'Rozszczepianie',
-      'Jądrowy',
-      'Czarnobyl'
-    ]),
-  ];
 
   // This widget is the root of your application.
   @override
@@ -93,6 +59,8 @@ class _GameViewState extends State<GameView> {
   @override
   void initState() {
     super.initState();
+    Cards.list.shuffle(Random.secure());
+    print('Number of cards: ${Cards.list.length}');
     restartGame();
   }
 
@@ -100,7 +68,6 @@ class _GameViewState extends State<GameView> {
     team = Team.A;
     pointsA = 0;
     pointsB = 0;
-    MyApp.items.shuffle(Random.secure());
     startTimer();
     stopwatch.reset();
     stopwatch.start();
@@ -158,19 +125,18 @@ class _GameViewState extends State<GameView> {
 
   void nextRound() {
     startTimer();
-    timerKey.currentState.startBreathing();
-    MyApp.items.shuffle(Random.secure());
     stopwatch.reset();
     stopwatch.start();
     setState(() {
       team = team == Team.A ? Team.B : Team.A;
     });
+    nextCard();
   }
 
   void nextCard() {
     timerKey.currentState.startBreathing();
     setState(() {
-      itemIndex = (itemIndex + 1) % MyApp.items.length;
+      itemIndex = (itemIndex + 1) % Cards.list.length;
     });
   }
 
@@ -242,15 +208,15 @@ class _GameViewState extends State<GameView> {
     return new Card(
       color: Colors.green,
       elevation: 3.0,
-      margin: new EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+      margin: new EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
       child: new Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             new Container(
-                padding: new EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                padding: new EdgeInsets.fromLTRB(8.0, 12.0, 8.0, 12.0),
                 child: new Text(
-                  MyApp.items[itemIndex].title,
+                  Cards.list[itemIndex].title.toUpperCase(),
                   textAlign: TextAlign.center,
                   style: new TextStyle(
                       fontSize: 21.0, fontWeight: FontWeight.bold, color: Colors.white),
@@ -260,22 +226,22 @@ class _GameViewState extends State<GameView> {
                 color: Colors.white,
                 alignment: FractionalOffset.center,
                 child: new SizedBox(height: 1.0, width: 1.0)),
-            new Container(height: 20.0, width: 0.0),
+            new Container(height: 8.0, width: 0.0),
             new Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
-                children: MyApp.items[itemIndex].forbiddenWords
+                children: Cards.list[itemIndex].forbiddenWords
                     .map((word) => new Container(
                         padding:
-                            new EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                            new EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 6.0),
                         child: new Text(
-                          word,
+                          word.toUpperCase(),
                           textAlign: TextAlign.center,
                           style: new TextStyle(
                               fontSize: 17.0, fontWeight: FontWeight.normal, color: Colors.white),
                         )))
                     .toList()),
-            new Container(height: 20.0, width: 0.0),
+            new Container(height: 10.0, width: 0.0),
           ]),
     );
   }
