@@ -54,7 +54,7 @@ class Cards {
         forbiddenWords: ['plaża', 'kubełek', 'babka', 'morze', 'dziecko']),
     const TabuItem(
         title: 'wieczór kawalerski',
-        forbiddenWords: ['wesele', 'ślub', 'panieństwo', 'impreza']),
+        forbiddenWords: ['wesele', 'ślub', 'panieństwo', 'impreza', 'kac vegas']),
     const TabuItem(
         title: 'jajko',
         forbiddenWords: ['białko', 'żółtko', 'skorupka', 'pisklak', 'kura']),
@@ -291,7 +291,7 @@ class Cards {
         forbiddenWords: ['pot', 'bierny', 'sport', 'fitness', 'czynny']),
     const TabuItem(
         title: 'świeczka',
-        forbiddenWords: ['wosk', 'knot', 'zapalać ogniem', 'światło', 'znicz']),
+        forbiddenWords: ['wosk', 'knot', 'zapalać', 'ogień', 'znicz']),
     const TabuItem(
         title: 'aluminium',
         forbiddenWords: ['metal', 'folia', 'plastik', 'felga', 'puszka']),
@@ -461,7 +461,7 @@ class Cards {
       'informacja'
     ]),
     const TabuItem(title: 'imperium', forbiddenWords: [
-      'ryszard kapuściński',
+      'kontratakuje',
       'potęga',
       'rzym',
       'mocarstwo',
@@ -516,7 +516,7 @@ class Cards {
       'wychowanie fizyczne',
       'siłownia',
       'akrobacje',
-      'gimnastyka sportowa',
+      'gimnastyka',
       'sport'
     ]),
     const TabuItem(
@@ -624,23 +624,9 @@ class Cards {
       'hanka',
       'broda'
     ]),
-    const TabuItem(title: 'szklany dom', forbiddenWords: [
-      'mieszkanie',
-      'przedwiośnie',
-      'żeromski',
-      'nowoczesność',
-      'przezroczysty'
-    ]),
-    const TabuItem(title: 'zgredek', forbiddenWords: [
-      'harry potter',
-      'stworzenie',
-      'skarpetka',
-      'skrzat',
-      'książka'
-    ]),
     const TabuItem(
-        title: 'pustynia_',
-        forbiddenWords: ['piasek', 'woda', 'sahara', 'wielbłąd', 'pustynia']),
+        title: 'pustynia',
+        forbiddenWords: ['piasek', 'woda', 'sahara', 'wielbłąd', 'błędowska']),
     const TabuItem(title: 'higiena', forbiddenWords: [
       'mydło',
       'ręcznik',
@@ -661,7 +647,7 @@ class Cards {
     const TabuItem(title: 'sylvester stallone', forbiddenWords: [
       'aktor',
       'rambo',
-      'arnold schwarzeneger',
+      'arnold schwarzenegger',
       'rocky',
       'hollywood'
     ]),
@@ -689,8 +675,7 @@ class Cards {
       'niebo',
       'jasność',
       'północ',
-      'ciało niebieskie',
-      'jezus'
+      'ciało niebieskie'
     ]),
     const TabuItem(title: 'anita włodarczyk', forbiddenWords: [
       'rzut',
@@ -731,7 +716,6 @@ class Cards {
       'morela',
       'owoc',
       'włoski',
-      'nazwa damskiej części ciała'
     ]),
     const TabuItem(
         title: 'małżowina',
@@ -741,13 +725,10 @@ class Cards {
         forbiddenWords: ['jezioro', 'film', 'statek', 'komedia', 'żeglować']),
     const TabuItem(
         title: 'strażak',
-        forbiddenWords: ['pożar', 'wóz', 'osp', 'gasić', 'sikawa']),
+        forbiddenWords: ['pożar', 'wóz', 'osp', 'gasić', 'sikawka']),
     const TabuItem(
         title: 'gasić',
         forbiddenWords: ['straż', 'pożar', 'ogień', 'światło', 'pragnienie']),
-    const TabuItem(
-        title: 'wąż strażacki',
-        forbiddenWords: ['woda', 'gasić', 'pożar', 'w52', 'ssawny']),
     const TabuItem(title: 'beret', forbiddenWords: [
       'czapka',
       'moher',
@@ -787,11 +768,11 @@ class Cards {
     ]),
     const TabuItem(
         title: 'słodycze',
-        forbiddenWords: ['żelki', 'czekolada', 'haribo', 'lizak', 'penis']),
+        forbiddenWords: ['żelki', 'czekolada', 'haribo', 'lizak', 'słodkie']),
     const TabuItem(title: 'pustelnik', forbiddenWords: [
       'samotnik',
       'odosobnienie',
-      'kameduli',
+      'mnich',
       'owad',
       'zakonnik'
     ]),
@@ -802,7 +783,7 @@ class Cards {
       'likwidacja',
       'złomowanie'
     ]),
-    const TabuItem(title: 'zlewka', forbiddenWords: [
+    const TabuItem(title: 'pipeta', forbiddenWords: [
       'roztwór',
       'naczynie',
       'laboratorium',
@@ -821,17 +802,10 @@ class Cards {
         forbiddenWords: ['film', 'pająk', 'pajęczyna', 'parker', 'peter']),
     const TabuItem(
         title: 'ubrania',
-        forbiddenWords: ['materjał', 'szafa', 'nić', 'ubierać', 'tkanina']),
+        forbiddenWords: ['materiał', 'szafa', 'nić', 'ubierać', 'tkanina']),
     const TabuItem(
         title: 'karmnik',
         forbiddenWords: ['drewno', 'domek', 'ziarno', 'jedzenie', 'ptak']),
-    const TabuItem(title: 'abberacja', forbiddenWords: [
-      'kolor',
-      'błąd',
-      'chromatyczna',
-      'zniekształcenie',
-      'soczewka'
-    ]),
     const TabuItem(
         title: 'śledziona',
         forbiddenWords: ['żebra', 'wątroba', 'brzuch', 'organ', 'narząd']),
@@ -869,7 +843,7 @@ class Cards {
         forbiddenWords: ['zwierzę', 'pasy', 'skóra', 'bat', 'bicz']),
     const TabuItem(
         title: 'bicz',
-        forbiddenWords: ['rzemień', 'skóra', 'indiana jones', 'suka', 'bat']),
+        forbiddenWords: ['rzemień', 'skóra', 'indiana jones', 'pejcz', 'bat']),
     const TabuItem(title: 'beczka', forbiddenWords: [
       'baryłka',
       'wypukła',
@@ -900,7 +874,7 @@ class Cards {
         forbiddenWords: ['prawdziwek', 'podgrzybek', 'grzyb', 'las', 'sos']),
     const TabuItem(
         title: 'karczoch',
-        forbiddenWords: ['fff', 'upc', 'roślina', 'zielone', 'warzywo']),
+        forbiddenWords: ['włoski', 'pizza', 'roślina', 'zielone', 'warzywo']),
     const TabuItem(
         title: 'krematorium',
         forbiddenWords: ['palić', 'ogień', 'piec', 'zwłoki', 'auschwitz']),
@@ -956,9 +930,6 @@ class Cards {
       'szprotka'
     ]),
     const TabuItem(
-        title: 'lubrykant',
-        forbiddenWords: ['suchość', 'nawilżać', 'żel', 'stosunek', 'poślizg']),
-    const TabuItem(
         title: 'szpagat',
         forbiddenWords: ['rozciąganie', 'nić', 'sznurek', 'figura', 'nogi']),
     const TabuItem(title: 'brzemię', forbiddenWords: [
@@ -993,9 +964,6 @@ class Cards {
       'seks'
     ]),
     const TabuItem(
-        title: 'viagra',
-        forbiddenWords: ['wzwód', 'seks', 'mężczyzna', 'potencja', 'apteka']),
-    const TabuItem(
         title: 'ojczym',
         forbiddenWords: ['przyszywany', 'matka', 'zastępować', 'tata', 'mąż']),
     const TabuItem(title: 'myć zęby', forbiddenWords: [
@@ -1015,16 +983,6 @@ class Cards {
       'triduum',
       'kłaść się'
     ]),
-    const TabuItem(title: 'szynszyla', forbiddenWords: [
-      'szary',
-      'gryzoń',
-      'wiewiórka',
-      'zwierzę',
-      'sklep zoologiczny'
-    ]),
-    const TabuItem(
-        title: 'sperma',
-        forbiddenWords: ['seks', 'orgazm', 'plemniki', 'penis', 'nasienie']),
     const TabuItem(
         title: 'obwarzanek',
         forbiddenWords: ['kraków', 'mak', 'sezam', 'okrągły', 'pieczywo']),
@@ -1049,7 +1007,7 @@ class Cards {
       'przyciski',
       'pilot',
       'samolot',
-      'menedżerski',
+      'sterowanie',
       'kabina'
     ]),
     const TabuItem(title: 'statua wolności', forbiddenWords: [
@@ -1064,13 +1022,13 @@ class Cards {
         forbiddenWords: ['obiad', 'bulwy', 'kartofle', 'poznań', 'ziemniaki']),
     const TabuItem(
         title: 'chromosom',
-        forbiddenWords: ['biologia', 'genetyka', 'płci', 'x y', 'dna']),
+        forbiddenWords: ['biologia', 'genetyka', 'płeć', 'x y', 'dna']),
     const TabuItem(
         title: 'lakier do paznokci',
         forbiddenWords: ['dłonie', 'zmywacz', 'kobieta', 'manicure', 'kolor']),
     const TabuItem(
         title: 'tydzień',
-        forbiddenWords: ['weekend', '7 dni', '52 w roku', 'czas', 'wtorek']),
+        forbiddenWords: ['weekend', '7 dni', '52 w roku', 'czas', 'miesiąc']),
     const TabuItem(
         title: 'przerwa',
         forbiddenWords: ['dzwonek', 'tetmajer', 'szkoła', 'odstęp', 'spacja']),
@@ -1139,7 +1097,7 @@ class Cards {
       'pułapka',
       'utknąć'
     ]),
-    const TabuItem(title: 'polemizacja', forbiddenWords: [
+    const TabuItem(title: 'polemika', forbiddenWords: [
       'dyskusja',
       'sprzeczka',
       'wymiana zdań',
@@ -1149,8 +1107,8 @@ class Cards {
     const TabuItem(title: 'gejsza', forbiddenWords: [
       'kimono',
       'japonia',
-      'wyznania gejszy',
-      'herbata',
+      'wyznania',
+      'prostytutka',
       'kobieta'
     ]),
     const TabuItem(title: 'maszt', forbiddenWords: [
@@ -1172,7 +1130,7 @@ class Cards {
     ]),
     const TabuItem(
         title: 'turlać',
-        forbiddenWords: ['podłoga', 'toczyć', 'pchać', 'przesówać', 'kula']),
+        forbiddenWords: ['podłoga', 'toczyć', 'pchać', 'przesuwać', 'kula']),
     const TabuItem(
         title: 'zguba',
         forbiddenWords: ['znależć', 'zaginąć', 'strata', 'zostawić']),
@@ -1251,7 +1209,7 @@ class Cards {
     ]),
     const TabuItem(
         title: 'hulajnoga',
-        forbiddenWords: ['odpychać się', 'dzieci', 'kołka', 'jeździć', 'noga']),
+        forbiddenWords: ['odpychać się', 'dzieci', 'kółka', 'jeździć', 'noga']),
     const TabuItem(title: 'motocykl', forbiddenWords: [
       'dawcy organów',
       'jednoślad',
@@ -1287,14 +1245,11 @@ class Cards {
       'wojsko',
       'armia',
       'stopień',
-      'kiszczak'
+      'jaruzelski'
     ]),
     const TabuItem(
         title: 'remis',
         forbiddenWords: ['mat', 'bramki', 'mecz', 'wynik', 'pat']),
-    const TabuItem(
-        title: 'online',
-        forbiddenWords: ['aktywny', 'tryb', 'sieć', 'internet', 'offline']),
     const TabuItem(title: 'struny', forbiddenWords: [
       'głosowe',
       'skrzypce',
@@ -1349,7 +1304,7 @@ class Cards {
     ]),
     const TabuItem(
         title: 'dmuchawiec',
-        forbiddenWords: ['latawce', 'łąka', 'mlecz', 'mniszek', 'wiatr']),
+        forbiddenWords: ['latawiec', 'łąka', 'mlecz', 'mniszek', 'wiatr']),
     const TabuItem(title: 'drink', forbiddenWords: [
       'barman',
       'alkohol',
@@ -1375,20 +1330,13 @@ class Cards {
         forbiddenWords: ['obiad', 'głód', 'posiłek', 'żarłok', 'pić']),
     const TabuItem(
         title: 'zeszyt',
-        forbiddenWords: ['32 kartkowy', 'notatnik', 'a5', 'kartka', 'szkoła']),
+        forbiddenWords: ['notatnik', 'a5', 'kartka', 'szkoła']),
     const TabuItem(
         title: 'kobieta',
         forbiddenWords: ['ewa', 'fochy', 'jajniki', 'ona', 'mężczyzna']),
     const TabuItem(
-        title: '10zł',
+        title: '10 zł',
         forbiddenWords: ['banknot', 'monety', 'mieszko i', 'nominał', 'dycha']),
-    const TabuItem(title: 'wyimaginowany', forbiddenWords: [
-      'rzeczywisty',
-      'urojenie',
-      'wymyślony',
-      'prawdziwy',
-      'nierealny'
-    ]),
     const TabuItem(title: 'zamrażanie', forbiddenWords: [
       'żywność',
       'schładzanie',
@@ -1396,7 +1344,7 @@ class Cards {
       'zimno',
       'lód'
     ]),
-    const TabuItem(title: 'gorzelnictwo', forbiddenWords: [
+    const TabuItem(title: 'bimber', forbiddenWords: [
       'alkohol',
       'wódka',
       'produkcja',
@@ -1405,7 +1353,7 @@ class Cards {
     ]),
     const TabuItem(
         title: 'owies',
-        forbiddenWords: ['renata beger', 'przenica', 'zboże', 'koń', 'płatki']),
+        forbiddenWords: ['renata beger', 'pszenica', 'zboże', 'koń', 'płatki']),
     const TabuItem(
         title: 'siekiera',
         forbiddenWords: ['rąbać', 'topór', 'drwal', 'ostre', 'drewno']),
@@ -1429,7 +1377,7 @@ class Cards {
         title: 'zęby',
         forbiddenWords: ['dentysta', 'buzia', 'kość', 'gryźć', 'kły']),
     const TabuItem(
-        title: 'domek na dzrzewie',
+        title: 'domek na drzewie',
         forbiddenWords: ['zabawa', 'dziecko', 'ambona', 'budować', 'wysoko']),
     const TabuItem(title: 'wihajster', forbiddenWords: [
       'dzyndzel',

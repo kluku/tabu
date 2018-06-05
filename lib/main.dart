@@ -75,6 +75,7 @@ class _GameViewState extends State<GameView> {
 
   void nextCard() {
     itemIndex = (itemIndex + 1) % Cards.list.length;
+    print('card index: $itemIndex');
   }
 
   void onNextCard() {
@@ -239,7 +240,7 @@ class _GameViewState extends State<GameView> {
                 mainAxisSize: MainAxisSize.min,
                 children: Cards.list[itemIndex].forbiddenWords
                     .map((word) => new Container(
-                        padding: new EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 6.0),
+                        padding: new EdgeInsets.fromLTRB(10.0, 6.0, 10.0, 6.0),
                         child: new Text(
                           word.toUpperCase(),
                           textAlign: TextAlign.center,
