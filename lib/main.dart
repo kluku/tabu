@@ -214,7 +214,7 @@ class _GameViewState extends State<GameView> {
     return new Card(
       color: Colors.green,
       elevation: 3.0,
-      margin: new EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+      margin: new EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 30.0),
       child: new Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -266,7 +266,7 @@ class _GameViewState extends State<GameView> {
                     color: team == Team.A ? Colors.green : Colors.black,
                     fontWeight:
                         team == Team.A ? FontWeight.bold : FontWeight.normal)),
-            new Text('Points: $pointsA'),
+            new Text('Punkty: $pointsA'),
           ])),
           new TimerView(key: timerKey),
           new Expanded(
