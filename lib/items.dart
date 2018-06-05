@@ -400,7 +400,7 @@ class Cards {
     const TabuItem(
         title: 'koronka',
         forbiddenWords: ['król', 'ozdoba', 'bielizna', 'kielce', 'materiał']),
-    const TabuItem(title: 'pigmeje', forbiddenWords: [
+    const TabuItem(title: 'pigmej', forbiddenWords: [
       'afryka',
       'murzyn',
       'plemiona',
@@ -1175,7 +1175,7 @@ class Cards {
         forbiddenWords: ['podłoga', 'toczyć', 'pchać', 'przesówać', 'kula']),
     const TabuItem(
         title: 'zguba',
-        forbiddenWords: ['znależć', 'mś', 'zaginąć', 'strata', 'zostawić']),
+        forbiddenWords: ['znależć', 'zaginąć', 'strata', 'zostawić']),
     const TabuItem(
         title: 'kapsułka',
         forbiddenWords: ['lek', 'połykać', 'choroba', 'tabletka', 'usta']),

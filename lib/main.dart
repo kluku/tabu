@@ -8,7 +8,6 @@ import 'timedialog.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -71,6 +70,18 @@ class _GameViewState extends State<GameView> {
     startTimer();
     stopwatch.reset();
     stopwatch.start();
+    nextCard();
+  }
+
+  void nextCard() {
+    itemIndex = (itemIndex + 1) % Cards.list.length;
+  }
+
+  void onNextCard() {
+    timerKey.currentState.startBreathing();
+    setState(() {
+      nextCard();
+    });
   }
 
   void startTimer() {
@@ -109,9 +120,10 @@ class _GameViewState extends State<GameView> {
               children: <Widget>[
                 new SimpleDialogOption(
                   child: new RaisedButton(
-                    child:
-                        new Text('Teraz drużyna ${team == Team.A ? 'B' : 'A'}', 
-                          style: new TextStyle(fontSize: 18.0, color: Colors.white)),
+                    child: new Text(
+                        'Teraz drużyna ${team == Team.A ? 'B' : 'A'}',
+                        style:
+                            new TextStyle(fontSize: 18.0, color: Colors.white)),
                     color: Colors.green,
                     onPressed: () {
                       nextRound();
@@ -129,14 +141,7 @@ class _GameViewState extends State<GameView> {
     stopwatch.start();
     setState(() {
       team = team == Team.A ? Team.B : Team.A;
-    });
-    nextCard();
-  }
-
-  void nextCard() {
-    timerKey.currentState.startBreathing();
-    setState(() {
-      itemIndex = (itemIndex + 1) % Cards.list.length;
+      nextCard();
     });
   }
 
@@ -155,7 +160,7 @@ class _GameViewState extends State<GameView> {
         drawer: sideMenu(),
         body: new GestureDetector(
             onTap: () {
-              nextCard();
+              onNextCard();
             },
             child: new Center(
                 child: new Column(children: <Widget>[
@@ -219,7 +224,9 @@ class _GameViewState extends State<GameView> {
                   Cards.list[itemIndex].title.toUpperCase(),
                   textAlign: TextAlign.center,
                   style: new TextStyle(
-                      fontSize: 21.0, fontWeight: FontWeight.bold, color: Colors.white),
+                      fontSize: 21.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 )),
             new Container(
                 width: 150.0,
@@ -232,13 +239,14 @@ class _GameViewState extends State<GameView> {
                 mainAxisSize: MainAxisSize.min,
                 children: Cards.list[itemIndex].forbiddenWords
                     .map((word) => new Container(
-                        padding:
-                            new EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 6.0),
+                        padding: new EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 6.0),
                         child: new Text(
                           word.toUpperCase(),
                           textAlign: TextAlign.center,
                           style: new TextStyle(
-                              fontSize: 17.0, fontWeight: FontWeight.normal, color: Colors.white),
+                              fontSize: 17.0,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.white),
                         )))
                     .toList()),
             new Container(height: 10.0, width: 0.0),
@@ -288,7 +296,7 @@ class _GameViewState extends State<GameView> {
                   pointsA++;
                   break;
               }
-              nextCard();
+              onNextCard();
             }),
         new IconButton(
             icon: new Icon(Icons.thumb_up),
@@ -302,7 +310,7 @@ class _GameViewState extends State<GameView> {
                   pointsB++;
                   break;
               }
-              nextCard();
+              onNextCard();
             })
       ],
     );
